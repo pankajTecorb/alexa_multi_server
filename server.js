@@ -107,7 +107,7 @@ const LocalizationInterceptor = {
 //     }
 // }
 async function callGeminiApi(prompt, userData) {
-    try {
+    try { console.log(prompt,userData,"userData")
         // Function to find relevant info in the dataset
         function getPatientInfo(query) {
             if (typeof query === String) {
@@ -203,7 +203,7 @@ const AskQuestionIntentHandler = {
     async handle(handlerInput) {
         const userQuestion = Alexa.getSlotValue(handlerInput.requestEnvelope, 'question') || 'No question provided';
         const userData1 = await User.findOne({}).sort({ createdAt: -1 }).lean();
-        let geminiResponse = await callGeminiApi(ruserQuestion, userData1.userData)
+        let geminiResponse = await callGeminiApi(userQuestion, userData1.userData)
        // let geminiResponse = await callGeminiApi(userQuestion);
         geminiResponse = String(geminiResponse).trim();
         return handlerInput.responseBuilder.speak(geminiResponse).getResponse();
